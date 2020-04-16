@@ -1,0 +1,38 @@
+<?php
+
+return [
+
+    'date_format' => env('ACL_DATE_FORMAT', 'Y-m-d H:i:s.u'),
+    'timestamp_precision' => 6,
+
+    'route' => [
+        'prefix' => [
+            'web' => env('ACL_ROUTE_PREFIX_WEB', 'acl'),
+            'api' => env('ACL_ROUTE_PREFIX_API', 'api/acl'),
+        ],
+    ],
+
+    'session' => [
+        'ttl' => env('ACL_SESSION_TTL', 14400),
+        'reuse_ttl' => env('ACL_SESSION_REUSE_TTL', 3600),
+    ],
+
+    'jwt' => [
+        'key' => env('ACL_JWT_KEY', '{{jwt_key}}'),
+        'alg' => env('ACL_JWT_ALG', 'HS256'),
+
+        'issuer' => env('ACL_JWT_ISSUER', 'none'),
+    ],
+
+    'guard' => [
+        'driver' => 'acl',
+        'provider' => 'users',
+        'hash' => false,
+    ],
+
+    'provider' => [
+        'driver' => 'eloquent',
+        'model' => Antares\Acl\Models\User::class,
+    ],
+
+];
