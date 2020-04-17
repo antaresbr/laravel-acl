@@ -2,6 +2,8 @@
 
 namespace Antares\Acl\Http\Controllers;
 
+use Antares\Acl\Http\AclHttpErrors;
+use Antares\Acl\Http\AclHttpResponse;
 use Antares\Acl\Models\AclSession;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
@@ -12,23 +14,6 @@ use Illuminate\Support\Str;
 
 class AclLoginController extends Controller
 {
-    protected function jsonError($msg, $code = -1)
-    {
-        return json_encode([
-            'status' => 'error',
-            'error_code' => $code,
-            'error_msg' => $msg,
-        ]);
-    }
-
-    protected function jsonSuccessful($token)
-    {
-        return json_encode([
-            'status' => 'successful',
-            'token' => $token,
-        ]);
-    }
-
     protected function getValidAclSession($user_id)
     {
         $session = AclSession::where([
@@ -71,29 +56,28 @@ class AclLoginController extends Controller
         $credentials = $guard->getCredentialsForRequest();
 
         if (empty($credentials[$usernameField])) {
-            return $this->jsonError(__('User login not supplied.'), AclLoginErrors::USER_LOGIN_NOT_SUPLIED);
+            return AclHttpResponse::error(AclHttpErrors::USER_LOGIN_NOT_SUPLIED);
         }
         if (empty($credentials['password'])) {
-            return $this->jsonError(__('Password not supplied.'), AclLoginErrors::PASSWORD_NOT_SUPLIED);
+            return AclHttpResponse::error(AclHttpErrors::PASSWORD_NOT_SUPLIED);
         }
 
         $candidate = $provider->retrieveByCredentials($credentials);
         $user = (!empty($candidate) and $provider->validateCredentials($candidate, $credentials)) ? $candidate : null;
 
         if (empty($user)) {
-            return $this->jsonError(__('Invalid credentials.'), AclLoginErrors::INVALID_CREDENTIALS);
+            return AclHttpResponse::error(AclHttpErrors::INVALID_CREDENTIALS);
         }
         if (!$user->active) {
-            return $this->jsonError(__('Inactive user.'), AclLoginErrors::INACTIVE_USER);
+            return AclHttpResponse::error(AclHttpErrors::INACTIVE_USER);
         }
         if ($user->blocked) {
-            return $this->jsonError(__('Blocked user.'), AclLoginErrors::BLOCKED_USER);
+            return AclHttpResponse::error(AclHttpErrors::BLOCKED_USER);
         }
 
         $session = $this->getValidAclSession($user->id);
 
-        return json_encode([
-            'status' => 'successful',
+        return AclHttpResponse::successful([
             'api_token' => "{$session->id}.{$session->api_token}"
         ]);
     }

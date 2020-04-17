@@ -4,12 +4,9 @@ namespace Antares\Acl\Tests;
 
 use Antares\Acl\Models\AclSession;
 use Antares\Acl\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 trait DatabaseTrait
 {
-    use RefreshDatabase;
-
     private function seedUsers($amount = 10)
     {
         return factory(User::class, $amount)->create();

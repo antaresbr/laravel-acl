@@ -2,7 +2,7 @@
 
 namespace Antares\Acl\Tests\Feature;
 
-use Antares\Acl\Http\Controllers\AclLoginErrors;
+use Antares\Acl\Http\AclHttpErrors;
 use Antares\Acl\Models\User;
 use Antares\Acl\Tests\DatabaseTrait;
 use Antares\Acl\Tests\TestCase;
@@ -27,8 +27,14 @@ class CredentialTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'error',
-            'error_code' => AclLoginErrors::USER_LOGIN_NOT_SUPLIED,
+            'error_code' => AclHttpErrors::USER_LOGIN_NOT_SUPLIED,
         ]);
+    }
+
+    /** @test */
+    public function login_with_missing_password()
+    {
+        $route = config('acl.route.prefix.api') . '/login';
 
         $response = $this->post($route, [
             'login' => 'wrong_user',
@@ -36,7 +42,7 @@ class CredentialTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'error',
-            'error_code' => AclLoginErrors::PASSWORD_NOT_SUPLIED,
+            'error_code' => AclHttpErrors::PASSWORD_NOT_SUPLIED,
         ]);
     }
 
@@ -52,12 +58,12 @@ class CredentialTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'error',
-            'error_code' => AclLoginErrors::INVALID_CREDENTIALS,
+            'error_code' => AclHttpErrors::INVALID_CREDENTIALS,
         ]);
     }
 
     /** @test */
-    public function login_with_inactive_or_blocked_user()
+    public function login_with_inactive_user()
     {
         $route = config('acl.route.prefix.api') . '/login';
 
@@ -69,11 +75,17 @@ class CredentialTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'error',
-            'error_code' => AclLoginErrors::INACTIVE_USER,
+            'error_code' => AclHttpErrors::INACTIVE_USER,
         ]);
-
         $this->defineUserAttribute(1, 'active', 1);
-        $this->defineUserAttribute(1, 'blocked', 1);
+    }
+
+    /** @test */
+    public function login_with_blocked_user()
+    {
+        $route = config('acl.route.prefix.api') . '/login';
+
+        $this->defineUserAttribute(1, 'blocked', true);
         $response = $this->post($route, [
             'login' => 'admin@admin.org',
             'password' => 'secret',
@@ -81,8 +93,8 @@ class CredentialTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'error',
-            'error_code' => AclLoginErrors::BLOCKED_USER,
+            'error_code' => AclHttpErrors::BLOCKED_USER,
         ]);
-        $this->defineUserAttribute(1, 'active', 1);
+        $this->defineUserAttribute(1, 'blocked', false);
     }
 }

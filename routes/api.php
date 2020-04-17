@@ -25,6 +25,4 @@ Route::get('/alive', function (Request $request) {
 
 Route::post('/login', 'AclLoginController@login');
 
-Route::middleware('auth:acl')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:acl')->get('/logged-user', 'AclUserController@getLoggedUser');

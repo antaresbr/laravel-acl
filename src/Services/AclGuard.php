@@ -70,8 +70,8 @@ class AclGuard extends TokenGuard
         $usernameField = $this->provider->createModel()->username();
 
         return [
-            $usernameField => request($usernameField),
-            'password' => request('password'),
+            $usernameField => $this->request->input($usernameField),
+            'password' => $this->request->input('password'),
         ];
     }
 }

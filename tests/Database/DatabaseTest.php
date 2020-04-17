@@ -6,10 +6,11 @@ use Antares\Acl\Models\AclSession;
 use Antares\Acl\Models\User;
 use Antares\Acl\Tests\DatabaseTrait;
 use Antares\Acl\Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DatabaseTest extends TestCase
 {
-    use DatabaseTrait;
+    use DatabaseTrait, RefreshDatabase;
 
     /** @test */
     public function create_users_with_factory()
@@ -28,5 +29,12 @@ class DatabaseTest extends TestCase
 
         $this->assertInstanceOf(AclSession::class, $sessions[rand(1, $amount) - 1]);
         $this->assertCount($amount, AclSession::all());
+    }
+
+    /** @test */
+    public function reset_database()
+    {
+        $this->assertCount(1, User::all());
+        $this->assertCount(0, AclSession::all());
     }
 }
