@@ -26,7 +26,7 @@ return [
 
     'guard' => [
         'driver' => 'acl',
-        'provider' => 'users',
+        'provider' => 'acl_users',
         'hash' => false,
     ],
 
