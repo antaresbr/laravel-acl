@@ -7,22 +7,27 @@ class AclHttpResponse
     public const ERROR = 'error';
     public const SUCCESSFUL = 'successful';
 
-    public static function error($code, $msg = null)
+    protected static function make($status, $code, $message = null, $data = null)
     {
-        $msg = !is_null($msg) ? __($msg) : __(AclHttpErrors::getErrorMsg($code));
-        return response(json_encode([
-            'status' => static::ERROR,
-            'error_code' => $code,
-            'error_msg' => $msg,
-        ]))->header('Content-Type', 'application/json');
+        $r = ['status' => $status];
+        if (trim($code) != '') {
+            $r['code'] = $code;
+        }
+        $r['message'] = $message;
+        $r['data'] = $data;
+
+        return response(json_encode($r))->header('Content-Type', 'application/json');
     }
 
-    public static function successful($data, $msg = null)
+    public static function error($code, $message = null, $data = null)
     {
-        return response(json_encode([
-            'status' => static::SUCCESSFUL,
-            'msg' => __($msg),
-            'data' => $data,
-        ]))->header('Content-Type', 'application/json');
+        $message = !is_null($message) ? __($message) : __(AclHttpErrors::getErrorMsg($code));
+
+        return static::make(static::ERROR, $code, $message, $data);
+    }
+
+    public static function successful($data, $message = null)
+    {
+        return static::make(static::SUCCESSFUL, null, $message, $data);
     }
 }

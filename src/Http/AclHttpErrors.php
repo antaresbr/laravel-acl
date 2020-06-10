@@ -4,14 +4,14 @@ namespace Antares\Acl\Http;
 
 class AclHttpErrors
 {
-    public const USER_LOGIN_NOT_SUPLIED = 1;
-    public const PASSWORD_NOT_SUPLIED = 2;
+    public const USER_LOGIN_NOT_SUPLIED = 60001;
+    public const PASSWORD_NOT_SUPLIED = 60002;
 
-    public const INVALID_CREDENTIALS = 11;
-    public const INACTIVE_USER = 12;
-    public const BLOCKED_USER = 13;
+    public const INVALID_CREDENTIALS = 60011;
+    public const INACTIVE_USER = 60012;
+    public const BLOCKED_USER = 60013;
 
-    public const NO_LOGGED_USER = 21;
+    public const NO_LOGGED_USER = 60021;
 
     public const ERROR_MSG = [
         self::USER_LOGIN_NOT_SUPLIED => 'User login not supplied.',
