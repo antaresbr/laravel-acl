@@ -2,6 +2,8 @@
 
 namespace Antares\Acl\Http;
 
+use Illuminate\Http\Response;
+
 class AclHttpResponse
 {
     public const ERROR = 'error';
@@ -16,7 +18,7 @@ class AclHttpResponse
         $r['message'] = $message;
         $r['data'] = $data;
 
-        return response(json_encode($r))->header('Content-Type', 'application/json');
+        return response()->json($r);
     }
 
     public static function error($code, $message = null, $data = null)
