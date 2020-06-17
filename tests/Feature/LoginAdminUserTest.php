@@ -2,7 +2,7 @@
 
 namespace Antares\Acl\Tests\Feature;
 
-use Antares\Acl\Http\AclHttpResponse;
+use Antares\Http\JsonResponse;
 use Antares\Acl\Models\AclSession;
 use Antares\Acl\Tests\DatabaseTrait;
 use Antares\Acl\Tests\TestCase;
@@ -21,7 +21,7 @@ class LoginAdminUserTest extends TestCase
         ]);
         $response->assertStatus(200);
         $response->assertJson([
-            'status' => AclHttpResponse::SUCCESSFUL,
+            'status' => JsonResponse::SUCCESSFUL,
         ]);
 
         $json = $response->json();

@@ -3,8 +3,8 @@
 namespace Antares\Acl\Http\Controllers;
 
 use Antares\Acl\Http\AclHttpErrors;
-use Antares\Acl\Http\AclHttpResponse;
 use Antares\Acl\Models\AclSession;
+use Antares\Http\JsonResponse;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -56,28 +56,28 @@ class AclLoginController extends Controller
         $credentials = $guard->getCredentialsForRequest();
 
         if (empty($credentials[$usernameField])) {
-            return AclHttpResponse::error(AclHttpErrors::USER_LOGIN_NOT_SUPLIED);
+            return JsonResponse::error(AclHttpErrors::USER_LOGIN_NOT_SUPLIED);
         }
         if (empty($credentials['password'])) {
-            return AclHttpResponse::error(AclHttpErrors::PASSWORD_NOT_SUPLIED);
+            return JsonResponse::error(AclHttpErrors::PASSWORD_NOT_SUPLIED);
         }
 
         $candidate = $provider->retrieveByCredentials($credentials);
         $user = (!empty($candidate) and $provider->validateCredentials($candidate, $credentials)) ? $candidate : null;
 
         if (empty($user)) {
-            return AclHttpResponse::error(AclHttpErrors::INVALID_CREDENTIALS);
+            return JsonResponse::error(AclHttpErrors::INVALID_CREDENTIALS);
         }
         if (!$user->active) {
-            return AclHttpResponse::error(AclHttpErrors::INACTIVE_USER);
+            return JsonResponse::error(AclHttpErrors::INACTIVE_USER);
         }
         if ($user->blocked) {
-            return AclHttpResponse::error(AclHttpErrors::BLOCKED_USER);
+            return JsonResponse::error(AclHttpErrors::BLOCKED_USER);
         }
 
         $session = $this->getValidAclSession($user->id);
 
-        return AclHttpResponse::successful([
+        return JsonResponse::successful([
             'api_token' => "{$session->id}.{$session->api_token}"
         ]);
     }

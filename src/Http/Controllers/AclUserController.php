@@ -3,7 +3,7 @@
 namespace Antares\Acl\Http\Controllers;
 
 use Antares\Acl\Http\AclHttpErrors;
-use Antares\Acl\Http\AclHttpResponse;
+use Antares\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -14,7 +14,7 @@ class AclUserController extends Controller
         $user = $request->user();
 
         return empty($user)
-            ? AclHttpResponse::error(AclHttpErrors::NO_LOGGED_USER)
-            : AclHttpResponse::successful(['user' => $user]);
+            ? JsonResponse::error(AclHttpErrors::NO_LOGGED_USER)
+            : JsonResponse::successful(['user' => $user]);
     }
 }
