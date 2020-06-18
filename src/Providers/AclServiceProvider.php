@@ -29,6 +29,8 @@ class AclServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadTranslationsFrom(acl_path('lang'), 'acl');
+
         $this->loadMigrationsFrom(acl_path('database/migrations'));
 
         $this->extendAuth();

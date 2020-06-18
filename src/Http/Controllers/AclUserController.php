@@ -14,7 +14,7 @@ class AclUserController extends Controller
         $user = $request->user();
 
         return empty($user)
-            ? JsonResponse::error(AclHttpErrors::NO_LOGGED_USER)
+            ? JsonResponse::error(AclHttpErrors::NO_AUTHENTICATED_USER)
             : JsonResponse::successful(['user' => $user]);
     }
 }

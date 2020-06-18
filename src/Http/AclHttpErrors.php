@@ -15,18 +15,18 @@ class AclHttpErrors extends AbstractHttpErrors
     public const INACTIVE_USER = 990022;
     public const BLOCKED_USER = 990023;
 
-    public const NO_LOGGED_USER = 990031;
+    public const NO_AUTHENTICATED_USER = 990031;
 
     public const MESSAGES = [
-        self::UNAUTHENTICATED => 'Unauthenticated request',
+        self::UNAUTHENTICATED => 'acl::errors.unauthenticated',
 
-        self::USER_LOGIN_NOT_SUPLIED => 'User login not supplied',
-        self::PASSWORD_NOT_SUPLIED => 'Password not supplied',
+        self::USER_LOGIN_NOT_SUPLIED => 'acl::errors.user_login_not_supplied',
+        self::PASSWORD_NOT_SUPLIED => 'acl::errors.password_not_supplied',
 
-        self::INVALID_CREDENTIALS => 'Invalid credentials',
-        self::INACTIVE_USER => 'Inactive user',
-        self::BLOCKED_USER => 'Blocked user',
+        self::INVALID_CREDENTIALS => 'acl::errors.invalid_credentials',
+        self::INACTIVE_USER => 'acl::errors.inactive_user',
+        self::BLOCKED_USER => 'acl::errors.blocked_user',
 
-        self::NO_LOGGED_USER => 'No logged User',
+        self::NO_AUTHENTICATED_USER => 'acl::errors.no_authenticated_user',
     ];
 }
