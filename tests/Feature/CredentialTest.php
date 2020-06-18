@@ -28,6 +28,7 @@ class CredentialTest extends TestCase
         $response->assertJson([
             'status' => 'error',
             'code' => AclHttpErrors::USER_LOGIN_NOT_SUPLIED,
+            'message' => AclHttpErrors::message(AclHttpErrors::USER_LOGIN_NOT_SUPLIED),
         ]);
     }
 
@@ -43,6 +44,7 @@ class CredentialTest extends TestCase
         $response->assertJson([
             'status' => 'error',
             'code' => AclHttpErrors::PASSWORD_NOT_SUPLIED,
+            'message' => AclHttpErrors::message(AclHttpErrors::PASSWORD_NOT_SUPLIED),
         ]);
     }
 
@@ -59,6 +61,7 @@ class CredentialTest extends TestCase
         $response->assertJson([
             'status' => 'error',
             'code' => AclHttpErrors::INVALID_CREDENTIALS,
+            'message' => AclHttpErrors::message(AclHttpErrors::INVALID_CREDENTIALS),
         ]);
     }
 
@@ -76,6 +79,7 @@ class CredentialTest extends TestCase
         $response->assertJson([
             'status' => 'error',
             'code' => AclHttpErrors::INACTIVE_USER,
+            'message' => AclHttpErrors::message(AclHttpErrors::INACTIVE_USER),
         ]);
         $this->defineUserAttribute(1, 'active', 1);
     }
@@ -94,6 +98,7 @@ class CredentialTest extends TestCase
         $response->assertJson([
             'status' => 'error',
             'code' => AclHttpErrors::BLOCKED_USER,
+            'message' => AclHttpErrors::message(AclHttpErrors::BLOCKED_USER),
         ]);
         $this->defineUserAttribute(1, 'blocked', false);
     }

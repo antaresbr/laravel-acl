@@ -2,9 +2,9 @@
 
 namespace Antares\Acl\Http;
 
-use Antares\Http\HttpErrors;
+use Antares\Http\AbstractHttpErrors;
 
-class AclHttpErrors extends HttpErrors
+class AclHttpErrors extends AbstractHttpErrors
 {
     public const UNAUTHENTICATED = 990001;
 
@@ -17,24 +17,16 @@ class AclHttpErrors extends HttpErrors
 
     public const NO_LOGGED_USER = 990031;
 
-    protected function makeMessages()
-    {
-        parent::makeMessages();
+    public const MESSAGES = [
+        self::UNAUTHENTICATED => 'Unauthenticated request',
 
-        //-- register current class error messages
-        if (!in_array(static::class, $this->registeredClasses)) {
-            $this->registerClass(static::class);
+        self::USER_LOGIN_NOT_SUPLIED => 'User login not supplied',
+        self::PASSWORD_NOT_SUPLIED => 'Password not supplied',
 
-            $this->addMessage(self::UNAUTHENTICATED, 'Unauthenticated request.');
+        self::INVALID_CREDENTIALS => 'Invalid credentials',
+        self::INACTIVE_USER => 'Inactive user',
+        self::BLOCKED_USER => 'Blocked user',
 
-            $this->addMessage(self::USER_LOGIN_NOT_SUPLIED, 'User login not supplied.');
-            $this->addMessage(self::PASSWORD_NOT_SUPLIED, 'Password not supplied.');
-
-            $this->addMessage(self::INVALID_CREDENTIALS, 'Invalid credentials.');
-            $this->addMessage(self::INACTIVE_USER, 'Inactive user.');
-            $this->addMessage(self::BLOCKED_USER, 'Blocked user.');
-
-            $this->addMessage(self::NO_LOGGED_USER, 'No logged User.');
-        }
-    }
+        self::NO_LOGGED_USER => 'No logged User',
+    ];
 }

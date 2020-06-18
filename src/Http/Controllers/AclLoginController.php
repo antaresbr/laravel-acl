@@ -56,23 +56,23 @@ class AclLoginController extends Controller
         $credentials = $guard->getCredentialsForRequest();
 
         if (empty($credentials[$usernameField])) {
-            return JsonResponse::error(AclHttpErrors::USER_LOGIN_NOT_SUPLIED);
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::USER_LOGIN_NOT_SUPLIED));
         }
         if (empty($credentials['password'])) {
-            return JsonResponse::error(AclHttpErrors::PASSWORD_NOT_SUPLIED);
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::PASSWORD_NOT_SUPLIED));
         }
 
         $candidate = $provider->retrieveByCredentials($credentials);
         $user = (!empty($candidate) and $provider->validateCredentials($candidate, $credentials)) ? $candidate : null;
 
         if (empty($user)) {
-            return JsonResponse::error(AclHttpErrors::INVALID_CREDENTIALS);
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::INVALID_CREDENTIALS));
         }
         if (!$user->active) {
-            return JsonResponse::error(AclHttpErrors::INACTIVE_USER);
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::INACTIVE_USER));
         }
         if ($user->blocked) {
-            return JsonResponse::error(AclHttpErrors::BLOCKED_USER);
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::BLOCKED_USER));
         }
 
         $session = $this->getValidAclSession($user->id);
