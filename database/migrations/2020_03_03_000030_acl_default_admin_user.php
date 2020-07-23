@@ -35,9 +35,6 @@ class AclDefaultAdminUser extends Migration
      */
     public function down()
     {
-        $user = DB::table('users')->find(1);
-        if (!empty($user)) {
-            $user->delete();
-        }
+        DB::table('users')->delete(1);
     }
 }
