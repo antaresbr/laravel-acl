@@ -13,8 +13,8 @@ class AliveTest extends TestCase
         $response->assertStatus(200);
 
         $json = $response->json();
+        $this->assertArrayHasKey('package', $json);
         $this->assertArrayHasKey('env', $json);
-        $this->assertArrayHasKey('version', $json);
         $this->assertArrayHasKey('serverDateTime', $json);
     }
 }

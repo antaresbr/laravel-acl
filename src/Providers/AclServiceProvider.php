@@ -29,9 +29,9 @@ class AclServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(acl_path('lang'), 'acl');
+        $this->loadTranslationsFrom(ai_acl_path('lang'), 'acl');
 
-        $this->loadMigrationsFrom(acl_path('database/migrations'));
+        $this->loadMigrationsFrom(ai_acl_path('database/migrations'));
 
         $this->extendAuth();
 
@@ -40,7 +40,7 @@ class AclServiceProvider extends ServiceProvider
 
     protected function mergeConfigFile($name)
     {
-        $targetFile = acl_path("config/{$name}.php");
+        $targetFile = ai_acl_path("config/{$name}.php");
 
         if (is_file($targetFile) and !Config::has($name)) {
             $this->mergeConfigFrom($targetFile, $name);
@@ -74,7 +74,7 @@ class AclServiceProvider extends ServiceProvider
             'namespace' => 'Antares\Acl\Http\Controllers',
         ];
         Route::group($attributes, function () {
-            $this->loadRoutesFrom(acl_path('routes/api.php'));
+            $this->loadRoutesFrom(ai_acl_path('routes/api.php'));
         });
     }
 }

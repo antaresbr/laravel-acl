@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/alive', function (Request $request) {
     return response()->json([
+        'package' => ai_acl_infos(),
         'env' => app()->environmentFile(),
-        'version' => config('version.app', '1.0'),
         'serverDateTime' => Carbon::now()->toString(),
     ]);
 });

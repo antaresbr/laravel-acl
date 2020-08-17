@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-require_once acl_path('database/AclDbHandler.php');
+require_once ai_acl_path('database/AclDbHandler.php');
 
 class AclCreateAclSessions extends Migration
 {
@@ -16,7 +17,6 @@ class AclCreateAclSessions extends Migration
     public function up()
     {
         Schema::create('acl_sessions', function (Blueprint $table) {
-
             $tsPrecision = config('acl.timestamp_precision');
             $currentTimestamp = AclDbHandler::getCurrentTimestamp();
 
@@ -29,7 +29,6 @@ class AclCreateAclSessions extends Migration
             $table->timestamp('finished_at', $tsPrecision)->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
-
         });
     }
 

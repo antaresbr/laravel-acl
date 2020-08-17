@@ -21,7 +21,7 @@ class CreateConfigCommand extends Command
 
     public function handle()
     {
-        $targetFile = acl_path('config/acl.php');
+        $targetFile = ai_acl_path('config/acl.php');
         $sourceFile = "{$targetFile}.template";
 
         if (is_file($targetFile)) {

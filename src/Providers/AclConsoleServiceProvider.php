@@ -32,14 +32,14 @@ class AclConsoleServiceProvider extends ServiceProvider
 
     protected function publishResources()
     {
-        $acl_path = 'acl_path';
+        $ai_acl_path = 'ai_acl_path';
 
         $this->publishes([
-            "{$acl_path('config/acl.php')}" => config_path('acl.php'),
+            "{$ai_acl_path('config/acl.php')}" => config_path('acl.php'),
         ], 'acl-config');
 
         $this->publishes([
-            "{$acl_path('lang')}" => resource_path('lang/vendor/acl'),
+            "{$ai_acl_path('lang')}" => resource_path('lang/vendor/acl'),
         ], 'acl-lang');
     }
 }

@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Str;
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 echo "\n";
-echo basename(__FILE__)."\n";
+echo basename(__FILE__) . "\n";
 echo "\n";
 
-$targetFile = acl_path('config/acl.php');
+$targetFile = ai_acl_path('config/acl.php');
 $sourceFile = "{$targetFile}.template";
 
 if (!is_file($targetFile) && is_file($sourceFile)) {
