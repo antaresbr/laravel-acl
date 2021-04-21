@@ -9,12 +9,12 @@ trait DatabaseTrait
 {
     private function seedUsers($amount = 10)
     {
-        return factory(User::class, $amount)->create();
+        return User::factory()->count($amount)->create();
     }
 
     private function seedSessions($amount = 20)
     {
-        return factory(AclSession::class, $amount)->create();
+        return AclSession::factory()->count($amount)->create();
     }
 
     private function seedAll()

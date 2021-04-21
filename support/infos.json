@@ -2,7 +2,7 @@
     "name": "antaresbr/laravel-acl",
     "version": {
         "major": 1,
-        "release": 0,
-        "minor": 10
+        "release": 1,
+        "minor": 0
     }
 }
