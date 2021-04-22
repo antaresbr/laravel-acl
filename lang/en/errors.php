@@ -10,4 +10,6 @@ return [
     'blocked_user' => 'Blocked user',
 
     'no_authenticated_user' => 'No authenticated user',
+
+    'menuPath_not_defined' => "'menuPath' not defined",
 ];

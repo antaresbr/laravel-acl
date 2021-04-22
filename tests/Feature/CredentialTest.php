@@ -27,8 +27,8 @@ class CredentialTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'error',
-            'code' => AclHttpErrors::USER_LOGIN_NOT_SUPLIED,
-            'message' => __(AclHttpErrors::message(AclHttpErrors::USER_LOGIN_NOT_SUPLIED)),
+            'code' => AclHttpErrors::USER_LOGIN_NOT_SUPPLIED,
+            'message' => __(AclHttpErrors::message(AclHttpErrors::USER_LOGIN_NOT_SUPPLIED)),
         ]);
     }
 
@@ -43,8 +43,8 @@ class CredentialTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'error',
-            'code' => AclHttpErrors::PASSWORD_NOT_SUPLIED,
-            'message' => __(AclHttpErrors::message(AclHttpErrors::PASSWORD_NOT_SUPLIED)),
+            'code' => AclHttpErrors::PASSWORD_NOT_SUPPLIED,
+            'message' => __(AclHttpErrors::message(AclHttpErrors::PASSWORD_NOT_SUPPLIED)),
         ]);
     }
 

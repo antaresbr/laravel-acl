@@ -20,7 +20,7 @@ class AclLoginController extends Controller
             ['user_id', $user_id],
             ['valid', 1],
             ['finished_at', null],
-            ['expires_at', '>=', Carbon::now()->addSeconds(config('acl.session.reuse_ttl'))->format(config('acl.date_format'))]
+            ['expires_at', '>=', Carbon::now()->addSeconds(config('acl.session.reuse_ttl'))->format(config('acl.date_format'))],
         ])->orderBy('issued_at', 'desc')->first();
 
         if (empty($session)) {
@@ -56,10 +56,10 @@ class AclLoginController extends Controller
         $credentials = $guard->getCredentialsForRequest();
 
         if (empty($credentials[$usernameField])) {
-            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::USER_LOGIN_NOT_SUPLIED));
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::USER_LOGIN_NOT_SUPPLIED));
         }
         if (empty($credentials['password'])) {
-            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::PASSWORD_NOT_SUPLIED));
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::PASSWORD_NOT_SUPPLIED));
         }
 
         $candidate = $provider->retrieveByCredentials($credentials);
@@ -78,7 +78,7 @@ class AclLoginController extends Controller
         $session = $this->getValidAclSession($user->id);
 
         return JsonResponse::successful([
-            'api_token' => "{$session->id}.{$session->api_token}"
+            'api_token' => "{$session->id}.{$session->api_token}",
         ]);
     }
 }
