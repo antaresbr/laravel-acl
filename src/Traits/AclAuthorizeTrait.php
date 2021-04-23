@@ -21,12 +21,12 @@ trait AclAuthorizeTrait
      */
     public function aclAuthorize($action = '')
     {
-        if (empty($this->menuPath())) {
-            return JsonResponse::error(AclHttpErrors::MENUPATH_NOT_SUPPLIED, null, [
-                'action' => $action,
-            ]);
-        }
-        $action = Str::join('/', $this->menuId(), $action);
+        // if (empty($this->menuPath())) {
+        //     return JsonResponse::error(AclHttpErrors::MENUPATH_NOT_SUPPLIED, null, [
+        //         'action' => $action,
+        //     ]);
+        // }
+        // $action = Str::join('/', $this->menuId(), $action);
 
         //-- TODO : implement authorize function in laravel-acl
         // return Acl::authorize($this->menuPath, $action);
