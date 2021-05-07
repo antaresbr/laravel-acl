@@ -23,8 +23,8 @@ class AclDefaultAdminUser extends Migration
             'email_verified_at' => $now,
             'password' => Hash::make('secret'),
             'created_at' => $now,
-            'active' => 1,
-            'blocked' => 0,
+            'active' => true,
+            'blocked' => false,
         ]);
     }
 

@@ -1,8 +1,10 @@
 <?php
 
+namespace Antares\Acl\Handlers;
+
 class AclDbHandler
 {
-    static public function getDriver($connection = null)
+    public static function getDriver($connection = null)
     {
         if (empty($connection)) {
             $connection = config('database.default');
@@ -11,10 +13,10 @@ class AclDbHandler
         return config("database.connections.{$connection}.driver");
     }
 
-    static public function getCurrentTimestamp($connection = null)
+    public static function getCurrentTimestamp($connection = null)
     {
         $tsPrecision = config('acl.timestamp_precision');
-        
+
         $currentTimestamp = 'CURRENT_TIMESTAMP';
 
         if (!empty($tsPrecision) and static::getDriver($connection) != 'sqlite') {

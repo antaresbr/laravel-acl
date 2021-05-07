@@ -10,10 +10,17 @@
       <directory suffix="Test.php">./tests/Unit</directory>
     </testsuite>
     <testsuite name="Database">
-      <directory suffix="Test.php">./tests/Database</directory>
+      <file>./tests/Database/RefreshDatabaseTest.php</file>
+      <file>./tests/Database/DatabaseTest.php</file>
     </testsuite>
     <testsuite name="Feature">
-      <directory suffix="Test.php">./tests/Feature</directory>
+      <file>./tests/Feature/RefreshDatabaseTest.php</file>
+      <file>./tests/Feature/SeedDatabaseTest.php</file>
+      <file>./tests/Feature/AliveTest.php</file>
+      <file>./tests/Feature/AuthenticationErrorsTest.php</file>
+      <file>./tests/Feature/AuthenticationsTest.php</file>
+      <file>./tests/Feature/AuthorizationsTest.php</file>
+      <file>./tests/Feature/MenusTest.php</file>
     </testsuite>
   </testsuites>
   <php>

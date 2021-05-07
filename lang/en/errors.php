@@ -10,6 +10,9 @@ return [
     'blocked_user' => 'Blocked user',
 
     'no_authenticated_user' => 'No authenticated user',
+    'no_session_for_request' => 'No session for request',
 
-    'menuPath_not_defined' => "'menuPath' not defined",
+    'menu_path_not_supplied' => 'Menu path not supplied',
+    'menu_path_not_found' => 'Menu path found',
+    'menu_path_access_not_allowed' => 'Menu path access not allowed',
 ];

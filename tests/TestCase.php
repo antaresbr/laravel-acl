@@ -3,9 +3,9 @@
 namespace Antares\Acl\Tests;
 
 use Antares\Acl\Providers\AclServiceProvider;
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
-class TestCase extends OrchestraTestCase
+class TestCase extends BaseTestCase
 {
     /**
      * Get package providers.

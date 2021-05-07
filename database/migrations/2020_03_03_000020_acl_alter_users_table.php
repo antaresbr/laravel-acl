@@ -17,8 +17,8 @@ class AclAlterUsersTable extends Migration
             $table->string('email')->nullable(true)->change();
 
             $table->string('username')->unique()->default('n/a')->after('name');
-            $table->unsignedTinyInteger('active')->default(1);
-            $table->unsignedTinyInteger('blocked')->default(1);
+            $table->boolean('active')->default(true);
+            $table->boolean('blocked')->default(true);
         });
     }
 

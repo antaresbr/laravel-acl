@@ -1,11 +1,10 @@
 <?php
 
+use Antares\Acl\Handlers\AclDbHandler;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-
-require_once ai_acl_path('database/AclDbHandler.php');
 
 class AclCreateAclSessions extends Migration
 {

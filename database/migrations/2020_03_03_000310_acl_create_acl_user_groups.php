@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AclCreateAclGroupRights extends Migration
+class AclCreateAclUserGroups extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class AclCreateAclGroupRights extends Migration
      */
     public function up()
     {
-        Schema::create('acl_group_rights', function (Blueprint $table) {
+        Schema::create('acl_user_groups', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('group_id');
-            $table->unsignedBigInteger('menu_id');
-            $table->unsignedTinyInteger('right')->default(0); //-- deny
-            $table->boolean('enabled')->default(true);
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');
             $table->foreign('group_id')->references('id')->on('acl_groups')->onUpdate('cascade');
-            $table->foreign('menu_id')->references('id')->on('acl_menus')->onUpdate('cascade');
         });
     }
 
@@ -33,6 +31,6 @@ class AclCreateAclGroupRights extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acl_group_rights');
+        Schema::dropIfExists('acl_user_groups');
     }
 }

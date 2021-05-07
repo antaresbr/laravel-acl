@@ -10,6 +10,9 @@ return [
     'blocked_user' => 'Usuário Bloqueado',
 
     'no_authenticated_user' => 'Nenhum usuário autenticado',
+    'no_session_for_request' => 'Nenhuma sessão para a requisição',
 
-    'menuPath_not_defined' => "'menuPath' não definido",
+    'menu_path_not_supplied' => 'Caminho do menu não informado',
+    'menu_path_not_found' => 'Caminho do menu não encontrado',
+    'menu_path_access_not_allowed' => 'Acesso não permitido ao caminho do menu',
 ];

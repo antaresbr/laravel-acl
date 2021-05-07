@@ -3,27 +3,17 @@
 namespace Antares\Acl\Tests\Feature;
 
 use Antares\Acl\Http\AclHttpErrors;
-use Antares\Acl\Models\User;
-use Antares\Acl\Tests\DatabaseTrait;
 use Antares\Acl\Tests\TestCase;
+use Antares\Acl\Tests\Traits\AuthenticateUserTrait;
 
-class CredentialTest extends TestCase
+class AuthenticationErrorsTest extends TestCase
 {
-    use DatabaseTrait;
-
-    private function defineUserAttribute($id, $attribute, $value)
-    {
-        $user = User::find($id);
-        $user->{$attribute} = $value;
-        $user->save();
-    }
+    use AuthenticateUserTrait;
 
     /** @test */
     public function login_with_missing_credentials()
     {
-        $route = config('acl.route.prefix.api') . '/login';
-
-        $response = $this->post($route, []);
+        $response = $this->post($this->getLoginRoute(), []);
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'error',
@@ -35,9 +25,7 @@ class CredentialTest extends TestCase
     /** @test */
     public function login_with_missing_password()
     {
-        $route = config('acl.route.prefix.api') . '/login';
-
-        $response = $this->post($route, [
+        $response = $this->post($this->getLoginRoute(), [
             'login' => 'wrong_user',
         ]);
         $response->assertStatus(200);
@@ -51,9 +39,7 @@ class CredentialTest extends TestCase
     /** @test */
     public function login_with_invalid_credentials()
     {
-        $route = config('acl.route.prefix.api') . '/login';
-
-        $response = $this->post($route, [
+        $response = $this->post($this->getLoginRoute(), [
             'login' => 'wrong_user',
             'password' => 'wrong_password',
         ]);
@@ -68,11 +54,9 @@ class CredentialTest extends TestCase
     /** @test */
     public function login_with_inactive_user()
     {
-        $route = config('acl.route.prefix.api') . '/login';
-
-        $this->defineUserAttribute(1, 'active', 0);
-        $response = $this->post($route, [
-            'login' => 'admin@admin.org',
+        $user = $this->randomUser()->unblock()->inactive();
+        $response = $this->post($this->getLoginRoute(), [
+            'login' => $user->email,
             'password' => 'secret',
         ]);
         $response->assertStatus(200);
@@ -81,17 +65,15 @@ class CredentialTest extends TestCase
             'code' => AclHttpErrors::INACTIVE_USER,
             'message' => __(AclHttpErrors::message(AclHttpErrors::INACTIVE_USER)),
         ]);
-        $this->defineUserAttribute(1, 'active', 1);
+        $user->active();
     }
 
     /** @test */
     public function login_with_blocked_user()
     {
-        $route = config('acl.route.prefix.api') . '/login';
-
-        $this->defineUserAttribute(1, 'blocked', true);
-        $response = $this->post($route, [
-            'login' => 'admin@admin.org',
+        $user = $this->randomUser()->active()->block();
+        $response = $this->post($this->getLoginRoute(), [
+            'login' => $user->username,
             'password' => 'secret',
         ]);
         $response->assertStatus(200);
@@ -100,6 +82,5 @@ class CredentialTest extends TestCase
             'code' => AclHttpErrors::BLOCKED_USER,
             'message' => __(AclHttpErrors::message(AclHttpErrors::BLOCKED_USER)),
         ]);
-        $this->defineUserAttribute(1, 'blocked', false);
     }
 }

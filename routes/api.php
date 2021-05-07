@@ -25,4 +25,9 @@ Route::get('/alive', function (Request $request) {
 
 Route::post('/login', 'AclLoginController@login');
 
-Route::middleware('auth:acl')->get('/logged-user', 'AclUserController@getLoggedUser');
+Route::middleware('auth:acl')->group(function () {
+    Route::post('/authorize', 'AclAuthorizeController@authorize');
+    Route::post('/get-menu-tree', 'AclMenuController@getMenuTree');
+    Route::get('/logged-user', 'AclUserController@getLoggedUser');
+    Route::get('/logout', 'AclLoginController@logout');
+});
