@@ -53,6 +53,7 @@ trait SeedDatabaseTrait
                     $optionDescription = $pathDescription . ' : Option ' . $optionLabel;
                     $items[] = AclMenu::create([
                         'path' => $optionPath,
+                        'type' => 1,
                         'description' => $optionDescription,
                         'enabled' => ($option != 2),
                     ]);
@@ -62,6 +63,7 @@ trait SeedDatabaseTrait
                         $actionDescription = $optionDescription . ' : Action ' . $actionLabel;
                         $items[] = AclMenu::create([
                             'path' => $actionPath,
+                            'type' => 2,
                             'description' => $actionDescription,
                             'enabled' => ($action != 2),
                         ]);

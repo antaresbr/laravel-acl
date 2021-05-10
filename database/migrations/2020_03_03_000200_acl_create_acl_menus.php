@@ -17,6 +17,7 @@ class AclCreateAclMenus extends Migration
             $table->id();
             $table->string('path', 512)->unique();
             $table->string('description');
+            $table->tinyInteger('type')->default(0);
             $table->boolean('enabled')->default(true);
             $table->timestamps();
         });

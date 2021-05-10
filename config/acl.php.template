@@ -20,7 +20,6 @@ return [
     'jwt' => [
         'key' => env('ACL_JWT_KEY', '{{jwt_key}}'),
         'alg' => env('ACL_JWT_ALG', 'HS256'),
-
         'issuer' => env('ACL_JWT_ISSUER', 'none'),
     ],
 
@@ -35,4 +34,9 @@ return [
         'model' => Antares\Acl\Models\User::class,
     ],
 
+    'menu_type' => [
+        ['key' => 0, 'label' => 'Node'],
+        ['key' => 1, 'label' => 'Item'],
+        ['key' => 2, 'label' => 'Action'],
+    ],
 ];
