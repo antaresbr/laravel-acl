@@ -98,8 +98,6 @@ trait AclAuthorizeTrait
      */
     public function aclAuthorize($action = '')
     {
-        // TODO: Change the guard to resolve this
-        // $user = request()->user();
         $user = request()->user('acl');
         if (empty($user)) {
             return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::NO_AUTHENTICATED_USER));
