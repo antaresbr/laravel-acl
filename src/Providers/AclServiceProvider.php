@@ -63,7 +63,7 @@ class AclServiceProvider extends ServiceProvider
     protected function extendAuth()
     {
         Auth::extend('acl', function ($app, $name, array $config) {
-            return new AclGuard(Auth::createUserProvider($config['provider']), $app->request);
+            return new AclGuard(Auth::createUserProvider($config['provider']), $app->make('request'));
         });
     }
 

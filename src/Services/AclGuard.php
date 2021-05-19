@@ -28,12 +28,12 @@ class AclGuard extends TokenGuard
         }
 
         $user = $this->provider->retrieveById($session->user_id);
-
         if (empty($user) or !$user->active or $user->blocked) {
             return null;
         }
+        $this->user = $user;
 
-        return $this->user = $user;
+        return $this->user;
     }
 
     /**
@@ -56,7 +56,7 @@ class AclGuard extends TokenGuard
             ['api_token', $token],
             ['valid', 1],
             ['finished_at', null],
-            ['expires_at', '>=', Carbon::now()->format(config('acl.date_format'))]
+            ['expires_at', '>=', Carbon::now()->format(config('acl.date_format'))],
         ])->first();
     }
 

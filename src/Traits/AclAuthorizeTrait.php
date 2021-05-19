@@ -98,7 +98,9 @@ trait AclAuthorizeTrait
      */
     public function aclAuthorize($action = '')
     {
-        $user = request()->user();
+        // TODO: Change the guard to resolve this
+        // $user = request()->user();
+        $user = request()->user('acl');
         if (empty($user)) {
             return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::NO_AUTHENTICATED_USER));
         }
@@ -112,17 +114,19 @@ trait AclAuthorizeTrait
         $action = $this->aclTrimPath($action);
         $fullPath = empty($action) ? $path : Str::join('/', $path, $action);
 
-        $menu = AclMenu::where('path', $fullPath)->get()->first();
-        if (empty($menu)) {
-            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_NOT_FOUND), null, [
-                'path' => $fullPath,
-            ]);
-        }
+        if (!Str::endsWith($fullPath, '/metadata')) {
+            $menu = AclMenu::where('path', $fullPath)->get()->first();
+            if (empty($menu)) {
+                return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_NOT_FOUND), null, [
+                    'path' => $fullPath,
+                ]);
+            }
 
-        if ($this->aclIsAllowedPath($user, $fullPath) !== true) {
-            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_ACCESS_NOT_ALLOWED), null, [
-                'path' => $fullPath,
-            ]);
+            if ($this->aclIsAllowedPath($user, $fullPath) !== true) {
+                return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_ACCESS_NOT_ALLOWED), null, [
+                    'path' => $fullPath,
+                ]);
+            }
         }
 
         return true;
