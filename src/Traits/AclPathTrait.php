@@ -20,20 +20,13 @@ trait AclPathTrait
     }
 
     /**
-     * Menu path protected property
-     *
-     * @var string
-     */
-    protected $menuPath;
-
-    /**
      * Menu path property acessor
      *
      * @return string
      */
     public function menuPath()
     {
-        return $this->aclTrimPath($this->menuPath);
+        return property_exists($this, 'menuPath') ? $this->aclTrimPath($this->menuPath) : null;
     }
 
     /**
