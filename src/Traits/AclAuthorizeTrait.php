@@ -100,14 +100,14 @@ trait AclAuthorizeTrait
     {
         $user = request()->user('acl');
         if (empty($user)) {
-            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::NO_AUTHENTICATED_USER));
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::NO_AUTHENTICATED_USER))->setStatusCode(401);
         }
 
         $path = $this->menuPath();
         if (empty($path)) {
             return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_NOT_SUPPLIED), null, [
                 'action' => $action,
-            ]);
+            ])->setStatusCode(400);
         }
         $action = $this->aclTrimPath($action);
         $fullPath = empty($action) ? $path : Str::join('/', $path, $action);
@@ -117,13 +117,13 @@ trait AclAuthorizeTrait
             if (empty($menu)) {
                 return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_NOT_FOUND), null, [
                     'path' => $fullPath,
-                ]);
+                ])->setStatusCode(404);
             }
 
             if ($this->aclIsAllowedPath($user, $fullPath) !== true) {
                 return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_ACCESS_NOT_ALLOWED), null, [
                     'path' => $fullPath,
-                ]);
+                ])->setStatusCode(403);
             }
         }
 
