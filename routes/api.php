@@ -28,6 +28,7 @@ Route::post('/login', 'AclLoginController@login');
 Route::middleware('auth:acl')->group(function () {
     Route::post('/authorize', 'AclAuthorizeController@authorize');
     Route::post('/get-menu-tree', 'AclMenuController@getMenuTree');
+    Route::get('/get-session', 'AclSessionController@getSessionFromRequest');
     Route::get('/logged-user', 'AclUserController@getLoggedUser');
     Route::get('/logout', 'AclLoginController@logout');
 });

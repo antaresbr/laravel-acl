@@ -113,6 +113,21 @@ class AclSessionController extends Controller
     }
 
     /**
+     * Return JsonResponse with the session model from current request
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSessionFromRequest(Request $request)
+    {
+        $session = $this->sessionFromToken($request->bearerToken());
+
+        return empty($session)
+            ? JsonResponse::error(AclHttpErrors::NO_SESSION_FOR_REQUEST)
+            : JsonResponse::successful(['session' => $session]);
+    }
+
+    /**
      * Invalidate the session model
      *
      * @param \Antares\Acl\Models\AclSession $session

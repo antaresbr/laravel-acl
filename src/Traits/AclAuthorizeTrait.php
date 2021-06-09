@@ -8,6 +8,7 @@ use Antares\Acl\Models\User;
 use Antares\Http\JsonResponse;
 use Antares\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\JsonResponse as SymfonyJsonResponse;
 
 trait AclAuthorizeTrait
 {
@@ -100,14 +101,14 @@ trait AclAuthorizeTrait
     {
         $user = request()->user('acl');
         if (empty($user)) {
-            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::NO_AUTHENTICATED_USER))->setStatusCode(401);
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::NO_AUTHENTICATED_USER))->setStatusCode(SymfonyJsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $path = $this->menuPath();
         if (empty($path)) {
             return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_NOT_SUPPLIED), null, [
                 'action' => $action,
-            ])->setStatusCode(400);
+            ])->setStatusCode(SymfonyJsonResponse::HTTP_NOT_FOUND);
         }
         $action = $this->aclTrimPath($action);
         $fullPath = empty($action) ? $path : Str::join('/', $path, $action);
@@ -117,13 +118,13 @@ trait AclAuthorizeTrait
             if (empty($menu)) {
                 return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_NOT_FOUND), null, [
                     'path' => $fullPath,
-                ])->setStatusCode(404);
+                ])->setStatusCode(SymfonyJsonResponse::HTTP_NOT_FOUND);
             }
 
             if ($this->aclIsAllowedPath($user, $fullPath) !== true) {
                 return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_ACCESS_NOT_ALLOWED), null, [
                     'path' => $fullPath,
-                ])->setStatusCode(403);
+                ])->setStatusCode(SymfonyJsonResponse::HTTP_FORBIDDEN);
             }
         }
 
