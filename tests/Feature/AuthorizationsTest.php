@@ -17,7 +17,7 @@ class AuthorizationsTest extends TestCase
         return config('acl.route.prefix.api') . '/authorize';
     }
 
-    private function authorizePathRequest($auth, $path, $action = '', $status = 'successful', $errorCode = null)
+    private function authorizePathRequest($auth, $path, $action = '', $status = 'successful', $errorCode = null, $httpStatus = 200)
     {
         $token = $auth['data']['api_token'] ?? $auth['api_token'] ?? $auth;
         $response = $this->post($this->getAuthorizeRoute(), [
@@ -27,7 +27,7 @@ class AuthorizationsTest extends TestCase
             'Authorization' => "Bearer {$token}",
             'Accept' => 'application/json',
         ]);
-        $response->assertStatus(200);
+        $response->assertStatus($httpStatus);
 
         $json = $response->json();
         $this->assertArrayHasKey('data', $json);
@@ -305,10 +305,10 @@ class AuthorizationsTest extends TestCase
      */
     public function authorize_request($auth)
     {
-        $this->authorizePathRequest($auth, '', '', 'error', AclHttpErrors::MENU_PATH_NOT_SUPPLIED);
-        $this->authorizePathRequest($auth, 'root/orange', '', 'error', AclHttpErrors::MENU_PATH_NOT_FOUND);
-        $this->authorizePathRequest($auth, 'root/menu-02', '', 'error', AclHttpErrors::MENU_PATH_ACCESS_NOT_ALLOWED);
-        $this->authorizePathRequest($auth, 'root/menu-04', 'path-02', 'error', AclHttpErrors::MENU_PATH_ACCESS_NOT_ALLOWED);
+        $this->authorizePathRequest($auth, '', '', 'error', AclHttpErrors::MENU_PATH_NOT_SUPPLIED, 404);
+        $this->authorizePathRequest($auth, 'root/orange', '', 'error', AclHttpErrors::MENU_PATH_NOT_FOUND, 404);
+        $this->authorizePathRequest($auth, 'root/menu-02', '', 'error', AclHttpErrors::MENU_PATH_ACCESS_NOT_ALLOWED, 403);
+        $this->authorizePathRequest($auth, 'root/menu-04', 'path-02', 'error', AclHttpErrors::MENU_PATH_ACCESS_NOT_ALLOWED, 403);
         $this->authorizePathRequest($auth, 'root/menu-04', 'path-01', 'successful');
     }
 }
