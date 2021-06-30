@@ -16,7 +16,7 @@ class AclMenuController extends Controller
      * Get menu tree for logged user
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Antares\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getMenuTree(Request $request)
     {
