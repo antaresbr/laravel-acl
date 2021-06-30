@@ -22,6 +22,7 @@ class AclCreateAclMenus extends Migration
             $table->text('style')->nullable();
             $table->text('action')->nullable();
             $table->text('component')->nullable();
+            $table->longText('vars')->nullable();
             $table->timestamps();
         });
     }
