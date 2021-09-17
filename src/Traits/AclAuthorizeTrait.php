@@ -113,7 +113,7 @@ trait AclAuthorizeTrait
         $action = $this->aclTrimPath($action);
         $fullPath = empty($action) ? $path : Str::join('/', $path, $action);
 
-        if (!Str::endsWith($fullPath, '/metadata')) {
+        if (!Str::endsWith($fullPath, '/metadata') and !Str::endsWith($fullPath, '/search')) {
             $menu = AclMenu::where('path', $fullPath)->get()->first();
             if (empty($menu)) {
                 return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::MENU_PATH_NOT_FOUND), null, [
