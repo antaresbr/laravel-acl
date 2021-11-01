@@ -38,21 +38,42 @@ trait AclAuthorizeTrait
         }
         $userRights->select('acl_menus.path as path', 'acl_user_rights.right as right')->distinct();
 
-        $allRights = DB::table('acl_group_rights');
-        $allRights->join('acl_menus', 'acl_menus.id', '=', 'acl_group_rights.menu_id');
-        $allRights->join('acl_groups', 'acl_groups.id', '=', 'acl_group_rights.group_id');
-        $allRights->join('acl_user_groups', 'acl_user_groups.group_id', '=', 'acl_group_rights.group_id');
-        $allRights->where([
+        $groupRights = DB::table('acl_group_rights');
+        $groupRights->join('acl_menus', 'acl_menus.id', '=', 'acl_group_rights.menu_id');
+        $groupRights->join('acl_groups', 'acl_groups.id', '=', 'acl_group_rights.group_id');
+        $groupRights->join('acl_user_groups', 'acl_user_groups.group_id', '=', 'acl_group_rights.group_id');
+        $groupRights->where([
             'acl_user_groups.user_id' => $user->id,
             'acl_group_rights.enabled' => true,
             'acl_groups.enabled' => true,
             'acl_menus.enabled' => true,
         ]);
         if ($pathFilter) {
-            $allRights->whereIn('acl_menus.path', $pathFilter);
+            $groupRights->whereIn('acl_menus.path', $pathFilter);
         }
-        $allRights->select('acl_menus.path as path', 'acl_group_rights.right as right')->distinct();
+        $groupRights->select('acl_menus.path as path', 'acl_group_rights.right as right')->distinct();
+
+        $profileRights = DB::table('acl_profile_rights');
+        $profileRights->join('acl_menus', 'acl_menus.id', '=', 'acl_profile_rights.menu_id');
+        $profileRights->join('acl_profiles', 'acl_profiles.id', '=', 'acl_profile_rights.profile_id');
+        $profileRights->join('acl_user_profiles', 'acl_user_profiles.profile_id', '=', 'acl_profile_rights.profile_id');
+        $profileRights->where([
+            'acl_user_profiles.user_id' => $user->id,
+            'acl_profile_rights.enabled' => true,
+            'acl_profiles.enabled' => true,
+            'acl_menus.enabled' => true,
+        ]);
+        if ($pathFilter) {
+            $profileRights->whereIn('acl_menus.path', $pathFilter);
+        }
+        $profileRights->select('acl_menus.path as path', 'acl_profile_rights.right as right')->distinct();
+
+        $allRights = DB::table('acl_menus');
+        $allRights->select('acl_menus.path as path', 'acl_menus.id as right')->distinct();
+        $allRights->where('acl_menus.id', -1);
         $allRights->union($userRights, false);
+        $allRights->union($groupRights, false);
+        $allRights->union($profileRights, false);
         $allRights->orderBy('path')->orderBy('right');
 
         $items = $allRights->get()->filter(function ($item) {
