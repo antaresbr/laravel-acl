@@ -26,7 +26,7 @@ trait AclMenuTrait
         if ($user) {
             $path = $this->aclTrimPath($path);
             $rights = $this->aclGetRights($user)->filter(function ($item) use ($path) {
-                return empty($path) ? true : Str::startsWith($item->path, $path);
+                return empty($path) ? true : Str::startsWith($item->path . '/', $path . '/');
             });
 
             if ($rights->isNotEmpty()) {
@@ -36,7 +36,8 @@ trait AclMenuTrait
                 if ($allowed->isNotEmpty()) {
                     $menus = DB::table('acl_menus')->where(function ($query) use ($allowed) {
                         foreach ($allowed as $item) {
-                            $query->orWhere('path', 'like', $item->path . '%');
+                            $query->orWhere('path', $item->path);
+                            $query->orWhere('path', 'like', $item->path . '/%');
                         }
                     });
 
@@ -45,7 +46,8 @@ trait AclMenuTrait
                     });
                     if ($denied->isNotEmpty()) {
                         foreach ($denied as $item) {
-                            $menus->where('path', 'not like', $item->path . '%');
+                            $menus->where('path', '!=', $item->path);
+                            $menus->where('path', 'not like', $item->path . '/%');
                         }
                     }
 

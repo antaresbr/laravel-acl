@@ -36,6 +36,31 @@ class AclMenuController extends Controller
         $data = $this->aclGetMenuTree($user, $path);
 
         return JsonResponse::successful($data->toArray());
-        //return JsonResponse::successful($data);
+    }
+
+    /**
+     * Get menu rights
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getMenuRights(Request $request)
+    {
+        $user = $request->user();
+        if (empty($user)) {
+            return JsonResponse::error(AclHttpErrors::error(AclHttpErrors::NO_AUTHENTICATED_USER));
+        }
+
+        $path = $request->input('path');
+        if ($path) {
+            $r = $this->aclPathExists($path);
+            if ($r !== true) {
+                return $r;
+            }
+        }
+
+        $data = $this->aclGetRights($user, $path);
+
+        return JsonResponse::successful($data->toArray());
     }
 }
