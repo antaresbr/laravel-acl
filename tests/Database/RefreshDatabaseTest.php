@@ -8,4 +8,10 @@ use Antares\Acl\Tests\Traits\RefreshDatabaseTrait;
 class RefreshDatabaseTest extends TestCase
 {
     use RefreshDatabaseTrait;
+
+    /** @test */
+    public function refreshed_database()
+    {
+        $this->assertRefreshedDatabase();
+    }
 }

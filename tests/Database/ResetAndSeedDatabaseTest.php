@@ -7,64 +7,85 @@ use Antares\Acl\Models\AclGroupRight;
 use Antares\Acl\Models\AclMenu;
 use Antares\Acl\Models\AclSession;
 use Antares\Acl\Models\AclUserGroup;
+use Antares\Acl\Models\AclUserRight;
 use Antares\Acl\Models\User;
 use Antares\Acl\Tests\TestCase;
-use Antares\Acl\Tests\Traits\SeedDatabaseTrait;
+use Antares\Acl\Tests\Traits\ResetDatabaseTrait;
 
-class DatabaseTest extends TestCase
+class ResetAndSeedDatabaseTest extends TestCase
 {
-    use SeedDatabaseTrait;
+    use ResetDatabaseTrait;
+
+    /** @test */
+    public function reset_database()
+    {
+        $this->resetDatabase();
+    }
+
+    /** @test */
+    public function assert_refreshed_database()
+    {
+        $this->assertRefreshedDatabase();
+    }
 
     /** @test */
     public function seed_users()
     {
-        $users = $this->seedUsers($amount = 30);
-        $this->assertInstanceOf(User::class, $users[rand(1, $amount) - 1]);
+        $data = $this->seedUsers($amount = 30);
+        $this->assertInstanceOf(User::class, $data[rand(1, $amount) - 1]);
         $this->assertCount($amount + 1, User::all()); //-- plus one because admin user
     }
 
     /** @test */
     public function seed_acl_session()
     {
-        $sessions = $this->seedSessions($amount = 20);
-        $this->assertInstanceOf(AclSession::class, $sessions[rand(1, $amount) - 1]);
+        $data = $this->seedSessions($amount = 20);
+        $this->assertInstanceOf(AclSession::class, $data[rand(1, $amount) - 1]);
         $this->assertCount($amount, AclSession::all());
     }
 
     /** @test */
     public function seed_acl_menus()
     {
-        $menus = $this->seedMenus($menuAmount = 5, $pathAmount = 3, $optionAmount = 3, $actionAmount = 3);
+        $data = $this->seedMenus($menuAmount = 5, $pathAmount = 3, $optionAmount = 3, $actionAmount = 3);
         $menuCount = $menuAmount * $pathAmount * $optionAmount * $actionAmount; //-- actions
         $menuCount += $menuAmount * $pathAmount * $optionAmount; //-- options
         $menuCount += $menuAmount * $pathAmount; //-- paths
         $menuCount += $menuAmount; //-- menus
         $menuCount++; //-- Root Menu
-        $this->assertInstanceOf(AclMenu::class, $menus[rand(1, $menuCount) - 1]);
+        $this->assertInstanceOf(AclMenu::class, $data[rand(1, $menuCount) - 1]);
         $this->assertCount($menuCount, AclMenu::all());
     }
 
     /** @test */
     public function seed_acl_groups()
     {
-        $groups = $this->seedGroups($amount = 5);
-        $this->assertInstanceOf(AclGroup::class, $groups[rand(1, $amount) - 1]);
+        $data = $this->seedGroups($amount = 5);
+        $this->assertInstanceOf(AclGroup::class, $data[rand(1, $amount) - 1]);
         $this->assertCount($amount, AclGroup::all());
     }
 
     /** @test */
     public function seed_acl_group_rights()
     {
-        $groupRights = $this->seedGroupRights($amount = 5);
-        $this->assertInstanceOf(AclGroupRight::class, $groupRights[rand(1, $amount) - 1]);
+        $data = $this->seedGroupRights($amount = 5);
+        $this->assertInstanceOf(AclGroupRight::class, $data[rand(1, $amount) - 1]);
         $this->assertCount($amount, AclGroupRight::all());
     }
 
     /** @test */
     public function seed_acl_user_groups()
     {
-        $userGroups = $this->seedUserGroups($amount = 5);
-        $this->assertInstanceOf(AclUserGroup::class, $userGroups[rand(1, $amount) - 1]);
+        $data = $this->seedUserGroups($amount = 5);
+        $this->assertInstanceOf(AclUserGroup::class, $data[rand(1, $amount) - 1]);
+        $this->assertCount($amount, AclGroup::all());
+    }
+
+    /** @test */
+    public function seed_acl_user_rights()
+    {
+        $data = $this->seedUserRights($amount = 5);
+        $this->assertInstanceOf(AclUserRight::class, $data[rand(1, $amount) - 1]);
         $this->assertCount($amount, AclGroup::all());
     }
 

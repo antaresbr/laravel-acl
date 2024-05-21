@@ -5,8 +5,8 @@ namespace Antares\Acl\Traits;
 use Antares\Acl\Http\AclHttpErrors;
 use Antares\Acl\Models\AclMenu;
 use Antares\Acl\Models\User;
+use Antares\Foundation\Str;
 use Antares\Http\JsonResponse;
-use Antares\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\JsonResponse as SymfonyJsonResponse;
 

@@ -7,10 +7,30 @@ use Antares\Acl\Http\Controllers\AclAuthorizeController;
 use Antares\Acl\Tests\Models\User;
 use Antares\Acl\Tests\TestCase;
 use Antares\Acl\Tests\Traits\AuthenticateUserTrait;
+use Antares\Acl\Tests\Traits\ResetDatabaseTrait;
 
 class AuthorizationsTest extends TestCase
 {
     use AuthenticateUserTrait;
+    use ResetDatabaseTrait;
+
+    /** @test */
+    public function reset_database()
+    {
+        $this->resetDatabase();
+    }
+
+    /** @test */
+    public function assert_refreshed_database()
+    {
+        $this->assertRefreshedDatabase();
+    }
+
+    /** @test */
+    public function database_seed()
+    {
+        $this->seedDatabase();
+    }
 
     private function getAuthorizeRoute()
     {

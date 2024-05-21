@@ -112,6 +112,20 @@ trait SeedDatabaseTrait
         return $items;
     }
 
+    private function seedUserRights($amount = 5)
+    {
+        $items = [];
+        for ($item = 1; $item <= $amount; $item++) {
+            $items[] = AclUserRight::create([
+                'user_id' => User::all()->random()->id,
+                'menu_id' => AclMenu::all()->random()->id,
+                'right' => rand(0, 1),
+                'enabled' => array_rand([true, false]),
+            ]);
+        }
+        return $items;
+    }
+
     private function seedAdminAcls()
     {
         AclGroup::create([
@@ -133,14 +147,25 @@ trait SeedDatabaseTrait
         ]);
     }
 
-    private function seedDatabase()
-    {
-        $this->seedUsers(30);
-        $this->seedSessions();
-        $this->seedMenus(5, 3, 3, 3);
-        $this->seedGroups(5);
-        $this->seedGroupRights(5);
-        $this->seedUserGroups(5);
+    private function seedDatabase(
+        int $users = 30,
+        int $sessions = 20,
+        int $menus = 5,
+        int $menuOptions = 3,
+        int $menuPaths = 3,
+        int $menuActions = 3,
+        int $groups = 5,
+        int $groupRights = 5,
+        int $userGroups = 5,
+    ): array {
+        $data = [];
+
+        $data['users'] = $this->seedUsers($users);
+        $data['sessions'] = $this->seedSessions($sessions);
+        $data['menus'] = $this->seedMenus($menus, $menuOptions, $menuPaths, $menuActions);
+        $data['groups'] = $this->seedGroups($groups);
+        $data['groupRights'] = $this->seedGroupRights($groupRights);
+        $data['userGroups'] = $this->seedUserGroups($userGroups);
         $this->seedAdminAcls();
 
         AclGroup::create([
@@ -209,5 +234,7 @@ trait SeedDatabaseTrait
         AclUserGroup::create(['user_id' => User::findOrFail(25)->id, 'group_id' => AclGroup::findOrFail(5)->id]);
 
         $this->assertCount(31, User::all());
+
+        return $data;
     }
 }

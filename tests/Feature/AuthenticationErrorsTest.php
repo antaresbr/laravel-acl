@@ -5,10 +5,30 @@ namespace Antares\Acl\Tests\Feature;
 use Antares\Acl\Http\AclHttpErrors;
 use Antares\Acl\Tests\TestCase;
 use Antares\Acl\Tests\Traits\AuthenticateUserTrait;
+use Antares\Acl\Tests\Traits\ResetDatabaseTrait;
 
 class AuthenticationErrorsTest extends TestCase
 {
     use AuthenticateUserTrait;
+    use ResetDatabaseTrait;
+
+    /** @test */
+    public function reset_database()
+    {
+        $this->resetDatabase();
+    }
+
+    /** @test */
+    public function assert_refreshed_database()
+    {
+        $this->assertRefreshedDatabase();
+    }
+
+    /** @test */
+    public function database_seed()
+    {
+        $this->seedDatabase();
+    }
 
     /** @test */
     public function login_with_missing_credentials()

@@ -4,7 +4,7 @@ namespace Antares\Acl\Traits;
 
 use Antares\Acl\Models\AclMenu;
 use Antares\Acl\Models\User;
-use Antares\Support\Str;
+use Antares\Foundation\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
