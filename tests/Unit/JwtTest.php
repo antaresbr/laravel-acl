@@ -4,6 +4,8 @@ namespace Antares\Acl\Tests\Unit;
 
 use Antares\Acl\Tests\TestCase;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use stdClass;
 
 class JwtTest extends TestCase
 {
@@ -26,7 +28,8 @@ class JwtTest extends TestCase
         $token_pieces = explode('.', $token);
         $this->assertCount(3, $token_pieces);
 
-        $decoded = JWT::decode($token, config('acl.jwt.key'), [config('acl.jwt.alg')]);
+        //$headers = new stdClass();
+        $decoded = JWT::decode($token, new Key(config('acl.jwt.key'), config('acl.jwt.alg')));
         $this->assertEquals(json_encode($this->payload), json_encode($decoded));
     }
 }
