@@ -135,7 +135,11 @@ class AclSessionController extends Controller
      */
     public function invalidateSession(AclSession $session)
     {
-        $session->update(['valid' => false]);
+        $delta = ['valid' => false];
+        if (!$session->finished_at) {
+            $delta['finished_at'] = Carbon::now()->format(config('acl.date_format'));
+        }
+        $session->update($delta);
         $session->save();
 
         return $session;

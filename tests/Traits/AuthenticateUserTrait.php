@@ -2,8 +2,11 @@
 
 namespace Antares\Acl\Tests\Traits;
 
+use Antares\Acl\Http\Controllers\AclSessionController;
+use Antares\Acl\Models\AclSession;
 use Antares\Acl\Tests\Models\User;
 use Antares\Http\JsonResponse;
+use Illuminate\Routing\Controller;
 
 trait AuthenticateUserTrait
 {
@@ -91,6 +94,12 @@ trait AuthenticateUserTrait
         $json = $response->json();
         $this->assertArrayHasKey('data', $json);
         $this->assertArrayHasKey('api_token', $json['data']);
+
+        $controller = new AclSessionController();
+        $session = $controller->sessionFromToken($token);
+        $this->assertInstanceOf(AclSession::class, $session);
+        $this->assertFalse(filter_var($session->valid,  FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
+        $this->assertNotNull($session->finished_at);
 
         return $json['data'];
     }
