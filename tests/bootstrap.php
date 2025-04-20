@@ -13,3 +13,8 @@ if (isset($_SERVER['DB_CONNECTION']) and isset($_SERVER['DB_DATABASE'])) {
 }
 
 require_once __DIR__ . '/../vendor/autoload.php';
+
+$aclFile = __DIR__ . DIRECTORY_SEPARATOR . '../config/acl.php';
+if (!is_file($aclFile)) {
+    copy($aclFile . '.template', $aclFile);
+}
