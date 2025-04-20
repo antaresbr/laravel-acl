@@ -1,2 +1,2 @@
 # laravel-acl
-A custom ACL (Access Control List) package to Laravel Framework
+A custom ACL (Access Control List) package to Laravel 8 Framework
