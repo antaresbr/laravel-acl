@@ -18,9 +18,9 @@
     "require": {
         "php": "^8.2",
         "antaresbr/foundation": "*",
-        "antaresbr/laravel-http": "^11",
+        "antaresbr/laravel-http": "^12",
         "firebase/php-jwt": "^6.10",
-        "laravel/framework": "^11"
+        "laravel/framework": "^12"
     },
     "autoload": {
         "files": [
@@ -31,7 +31,7 @@
         }
     },
     "require-dev": {
-        "orchestra/testbench": "^9"
+        "orchestra/testbench": "^10"
     },
     "autoload-dev": {
         "psr-4": {
