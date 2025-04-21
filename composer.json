@@ -16,12 +16,12 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8",
+        "php": "^8.1",
         "antaresbr/foundation": "*",
-        "antaresbr/laravel-http": "^9",
-        "doctrine/dbal": "^2.10",
+        "antaresbr/laravel-http": "^10",
+        "doctrine/dbal": "^3",
         "firebase/php-jwt": "^6.10",
-        "laravel/framework": "^9"
+        "laravel/framework": "^10"
     },
     "autoload": {
         "files": [
@@ -32,7 +32,7 @@
         }
     },
     "require-dev": {
-        "orchestra/testbench": "^7"
+        "orchestra/testbench": "^8"
     },
     "autoload-dev": {
         "psr-4": {
