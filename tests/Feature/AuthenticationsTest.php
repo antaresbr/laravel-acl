@@ -9,56 +9,54 @@ use Antares\Acl\Tests\TestCase;
 use Antares\Acl\Tests\Traits\AuthenticateUserTrait;
 use Antares\Acl\Tests\Traits\ResetDatabaseTrait;
 use Illuminate\Support\Carbon;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 
 class AuthenticationsTest extends TestCase
 {
     use AuthenticateUserTrait;
     use ResetDatabaseTrait;
 
-    /** @test */
+    #[Test]
     public function reset_database()
     {
         $this->resetDatabase();
     }
 
-    /** @test */
+    #[Test]
     public function assert_refreshed_database()
     {
         $this->assertRefreshedDatabase();
     }
 
-    /** @test */
+    #[Test]
     public function database_seed()
     {
         $this->seedDatabase();
     }
 
-    /** @test */
+    #[Test]
     public function invalidate_all_sessions()
     {
         AclSession::where('valid', true)->update(['valid' => false]);
         $this->assertCount(0, AclSession::where('valid', true)->get());
     }
 
-    /** @test */
+    #[Test]
     public function login_with_random_user()
     {
         return $this->loginRandomUser();
     }
 
-    /**
-     * @test
-     * @depends login_with_random_user
-     */
+    #[Test]
+    #[Depends('login_with_random_user')]
     public function get_logged_data($auth)
     {
         return $this->getLoggedData($auth);
     }
 
-    /**
-     * @test
-     * @depends get_logged_data
-     */
+    #[Test]
+    #[Depends('get_logged_data')]
     public function login_with_same_user($data)
     {
         $this->assertArrayHasKey('api_token', $data);
@@ -78,10 +76,8 @@ class AuthenticationsTest extends TestCase
         return $data;
     }
 
-    /**
-     * @test
-     * @depends get_logged_data
-     */
+    #[Test]
+    #[Depends('get_logged_data')]
     public function validate_session($data)
     {
         $sessionController = new AclSessionController();
@@ -119,10 +115,8 @@ class AuthenticationsTest extends TestCase
         return $data;
     }
 
-    /**
-     * @test
-     * @depends validate_session
-     */
+    #[Test]
+    #[Depends('validate_session')]
     public function invalidate_current_session($data)
     {
         $this->assertArrayHasKey('api_token', $data);
@@ -139,7 +133,7 @@ class AuthenticationsTest extends TestCase
         $this->assertFalse($session->valid);
     }
 
-    /** @test */
+    #[Test]
     public function create_multiple_sections_for_random_user()
     {
         $this->assertCount(0, AclSession::where('valid', true)->get());
@@ -158,10 +152,8 @@ class AuthenticationsTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @depends create_multiple_sections_for_random_user
-     */
+    #[Test]
+    #[Depends('create_multiple_sections_for_random_user')]
     public function invalidate_sessions_from_user($data)
     {
         $filters = [
@@ -173,16 +165,14 @@ class AuthenticationsTest extends TestCase
         $this->assertCount(0, AclSession::where($filters)->get());
     }
 
-    /** @test */
+    #[Test]
     public function login_with_other_user()
     {
         return $this->loginRandomUser();
     }
 
-    /**
-     * @test
-     * @depends login_with_other_user
-     */
+    #[Test]
+    #[Depends('login_with_other_user')]
     public function user_logout($auth)
     {
         $this->logoutUser($auth);

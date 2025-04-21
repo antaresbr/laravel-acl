@@ -7,25 +7,27 @@ use Antares\Acl\Tests\Models\User;
 use Antares\Acl\Tests\TestCase;
 use Antares\Acl\Tests\Traits\AuthenticateUserTrait;
 use Antares\Acl\Tests\Traits\ResetDatabaseTrait;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Test;
 
 class MenusTest extends TestCase
 {
     use AuthenticateUserTrait;
     use ResetDatabaseTrait;
 
-    /** @test */
+    #[Test]
     public function reset_database()
     {
         $this->resetDatabase();
     }
 
-    /** @test */
+    #[Test]
     public function assert_refreshed_database()
     {
         $this->assertRefreshedDatabase();
     }
 
-    /** @test */
+    #[Test]
     public function database_seed()
     {
         $this->seedDatabase();
@@ -59,17 +61,15 @@ class MenusTest extends TestCase
         return $json;
     }
 
-    /** @test */
+    #[Test]
     public function login_user_21()
     {
         $user = User::findOrFail(21)->enable();
         return $this->loginUser($user->email, 'secret');
     }
 
-    /**
-     * @test
-     * @depends login_user_21
-     */
+    #[Test]
+    #[Depends('login_user_21')]
     public function get_menu_for_user_21($auth)
     {
         $json = $this->getMenuTreeRequest($auth, 'root/menu-99', 'error', AclHttpErrors::MENU_PATH_NOT_FOUND);
@@ -87,17 +87,15 @@ class MenusTest extends TestCase
         $this->assertCount(36, $json['data']);
     }
 
-    /** @test */
+    #[Test]
     public function login_user_22()
     {
         $user = User::findOrFail(22)->enable();
         return $this->loginUser($user->email, 'secret');
     }
 
-    /**
-     * @test
-     * @depends login_user_22
-     */
+    #[Test]
+    #[Depends('login_user_22')]
     public function get_menu_for_user_22($auth)
     {
         $json = $this->getMenuTreeRequest($auth, 'root/menu-04');
@@ -113,17 +111,15 @@ class MenusTest extends TestCase
         $this->assertCount(31, $json['data']);
     }
 
-    /** @test */
+    #[Test]
     public function login_user_23()
     {
         $user = User::findOrFail(23)->enable();
         return $this->loginUser($user->email, 'secret');
     }
 
-    /**
-     * @test
-     * @depends login_user_23
-     */
+    #[Test]
+    #[Depends('login_user_23')]
     public function get_menu_for_user_23($auth)
     {
         $json = $this->getMenuTreeRequest($auth, 'root/menu-01');
@@ -139,17 +135,15 @@ class MenusTest extends TestCase
         $this->assertCount(16, $json['data']);
     }
 
-    /** @test */
+    #[Test]
     public function login_user_24()
     {
         $user = User::findOrFail(24)->enable();
         return $this->loginUser($user->email, 'secret');
     }
 
-    /**
-     * @test
-     * @depends login_user_24
-     */
+    #[Test]
+    #[Depends('login_user_24')]
     public function get_menu_for_user_24($auth)
     {
         $json = $this->getMenuTreeRequest($auth, 'root/menu-01');
@@ -165,17 +159,15 @@ class MenusTest extends TestCase
         $this->assertCount(31, $json['data']);
     }
 
-    /** @test */
+    #[Test]
     public function login_user_25()
     {
         $user = User::findOrFail(25)->enable();
         return $this->loginUser($user->email, 'secret');
     }
 
-    /**
-     * @test
-     * @depends login_user_25
-     */
+    #[Test]
+    #[Depends('login_user_25')]
     public function get_menu_for_user_25($auth)
     {
         $json = $this->getMenuTreeRequest($auth, 'root/menu-01');

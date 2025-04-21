@@ -5,6 +5,7 @@ namespace Antares\Acl\Tests\Unit;
 use Antares\Acl\Tests\TestCase;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 
 class JwtTest extends TestCase
@@ -19,7 +20,7 @@ class JwtTest extends TestCase
         'expires_at' => '2020-03-01 16:00:00.000000',
     ];
 
-    /** @test */
+    #[Test]
     public function create_and_validate_jwt_token()
     {
         $token = JWT::encode($this->payload, config('acl.jwt.key'), config('acl.jwt.alg'));

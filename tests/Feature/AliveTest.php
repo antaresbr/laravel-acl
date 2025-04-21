@@ -3,10 +3,11 @@
 namespace Antares\Acl\Tests\Feature;
 
 use Antares\Acl\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class AliveTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get_alive()
     {
         $response = $this->get(config('acl.route.prefix.api') . '/alive');
