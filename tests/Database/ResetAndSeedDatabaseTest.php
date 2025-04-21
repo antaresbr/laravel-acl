@@ -11,24 +11,25 @@ use Antares\Acl\Models\AclUserRight;
 use Antares\Acl\Models\User;
 use Antares\Acl\Tests\TestCase;
 use Antares\Acl\Tests\Traits\ResetDatabaseTrait;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResetAndSeedDatabaseTest extends TestCase
 {
     use ResetDatabaseTrait;
 
-    /** @test */
+    #[Test]
     public function reset_database()
     {
         $this->resetDatabase();
     }
 
-    /** @test */
+    #[Test]
     public function assert_refreshed_database()
     {
         $this->assertRefreshedDatabase();
     }
 
-    /** @test */
+    #[Test]
     public function seed_users()
     {
         $data = $this->seedUsers($amount = 30);
@@ -36,7 +37,7 @@ class ResetAndSeedDatabaseTest extends TestCase
         $this->assertCount($amount + 1, User::all()); //-- plus one because admin user
     }
 
-    /** @test */
+    #[Test]
     public function seed_acl_session()
     {
         $data = $this->seedSessions($amount = 20);
@@ -44,7 +45,7 @@ class ResetAndSeedDatabaseTest extends TestCase
         $this->assertCount($amount, AclSession::all());
     }
 
-    /** @test */
+    #[Test]
     public function seed_acl_menus()
     {
         $data = $this->seedMenus($menuAmount = 5, $pathAmount = 3, $optionAmount = 3, $actionAmount = 3);
@@ -57,7 +58,7 @@ class ResetAndSeedDatabaseTest extends TestCase
         $this->assertCount($menuCount, AclMenu::all());
     }
 
-    /** @test */
+    #[Test]
     public function seed_acl_groups()
     {
         $data = $this->seedGroups($amount = 5);
@@ -65,7 +66,7 @@ class ResetAndSeedDatabaseTest extends TestCase
         $this->assertCount($amount, AclGroup::all());
     }
 
-    /** @test */
+    #[Test]
     public function seed_acl_group_rights()
     {
         $data = $this->seedGroupRights($amount = 5);
@@ -73,7 +74,7 @@ class ResetAndSeedDatabaseTest extends TestCase
         $this->assertCount($amount, AclGroupRight::all());
     }
 
-    /** @test */
+    #[Test]
     public function seed_acl_user_groups()
     {
         $data = $this->seedUserGroups($amount = 5);
@@ -81,7 +82,7 @@ class ResetAndSeedDatabaseTest extends TestCase
         $this->assertCount($amount, AclGroup::all());
     }
 
-    /** @test */
+    #[Test]
     public function seed_acl_user_rights()
     {
         $data = $this->seedUserRights($amount = 5);
@@ -89,7 +90,7 @@ class ResetAndSeedDatabaseTest extends TestCase
         $this->assertCount($amount, AclGroup::all());
     }
 
-    /** @test */
+    #[Test]
     public function seed_acl_admin_acls()
     {
         $this->seedAdminAcls();
