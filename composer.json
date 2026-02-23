@@ -19,7 +19,7 @@
         "php": "^8.2",
         "antaresbr/foundation": "*",
         "antaresbr/laravel-http": "^11",
-        "firebase/php-jwt": "^6.10",
+        "firebase/php-jwt": "^7",
         "laravel/framework": "^11"
     },
     "autoload": {
