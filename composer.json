@@ -20,7 +20,7 @@
         "antaresbr/foundation": "*",
         "antaresbr/laravel-http": "^8",
         "doctrine/dbal": "^2.10",
-        "firebase/php-jwt": "^6.10",
+        "firebase/php-jwt": "^7",
         "laravel/framework": "^8"
     },
     "autoload": {
